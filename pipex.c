@@ -6,7 +6,7 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:43:07 by guisanto          #+#    #+#             */
-/*   Updated: 2025/03/11 15:37:12 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/03/11 15:52:31 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	babe_pipe(char **argv, char **envp, int *fd)
 	close(fd[1]);
 	execute(argv[2], envp);
 }
+
 void	parent_process(char **argv, char **envp, int *fd)
 {
 	int	outfile;
@@ -52,14 +53,16 @@ int	main(int argc, char **argv, char **envp)
 
 	pid = 0;
 	if (argc != 5)
-		return (ft_putstr_fd("Error: Bad arguments\nEx: ./pipex <infile> <cmd1> <cmd2> <outfile>\n",
-				2), 1);
+	{
+		return (ft_putstr_fd("Error:\n", 2), 1);
+	}
 	if (pipe(fd) == -1)
 	{
 		perror("Pipe creation failed");
 		exit(1);
 	}
-	if ((pid = fork()) == -1)
+	pid = fork();
+	if (pid == -1)
 	{
 		perror("Fork failed");
 		exit(1);
