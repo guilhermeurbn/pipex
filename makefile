@@ -6,7 +6,7 @@
 #    By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/24 19:20:19 by guisanto          #+#    #+#              #
-#    Updated: 2025/02/25 00:16:25 by guisanto         ###   ########.fr        #
+#    Updated: 2025/03/11 16:11:23 by guisanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ INCLUDES_DIR = includes
 
 # Lista de arquivos de código fonte .c
 SRCS = pipex.c \
+	error_free.c \
 	utils.c \
 
 # Diretório onde a biblioteca libft está localizada
