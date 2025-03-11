@@ -12,10 +12,10 @@
 
 #include "pipex.h"
 
-void babe_pipe(char **argv, char **envp, int *fd)
+void	babe_pipe(char **argv, char **envp, int *fd)
 {
-	int		infile;
-	
+	int	infile;
+
 	infile = open(argv[1], O_RDONLY);
 	if (infile == -1)
 	{
@@ -27,13 +27,14 @@ void babe_pipe(char **argv, char **envp, int *fd)
 	close(fd[0]);
 	close(fd[1]);
 	execute(argv[2], envp);
-}	
-void parent_process(char **argv, char **envp, int *fd)
+}
+void	parent_process(char **argv, char **envp, int *fd)
 {
-	int outfile;
+	int	outfile;
+
 	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (outfile == -1)
-	{	
+	{
 		perror("Error opening output file");
 		exit(1);
 	}
@@ -44,13 +45,15 @@ void parent_process(char **argv, char **envp, int *fd)
 	execute(argv[3], envp);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	int fd[2];
-	pid_t pid = 0;
-	
+	int		fd[2];
+	pid_t	pid;
+
+	pid = 0;
 	if (argc != 5)
-		return (ft_putstr_fd("Error: Bad arguments\nEx: ./pipex <infile> <cmd1> <cmd2> <outfile>\n", 2), 1);
+		return (ft_putstr_fd("Error: Bad arguments\nEx: ./pipex <infile> <cmd1> <cmd2> <outfile>\n",
+				2), 1);
 	if (pipe(fd) == -1)
 	{
 		perror("Pipe creation failed");
@@ -66,4 +69,4 @@ int main(int argc, char **argv, char **envp)
 	waitpid(pid, NULL, 0);
 	parent_process(argv, envp, fd);
 	return (0);
-}		
+}

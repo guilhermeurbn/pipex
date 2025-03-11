@@ -34,12 +34,12 @@ char	*find_path(char *cmd, char **envp)
 		path = ft_strjoin(part_path, cmd);
 		free(part_path);
 		if (access(path, F_OK) == 0)
-			{
-				while (paths[i])
-					free(paths[i++]);
-				free(paths);
-				return (path);
-			}
+		{
+			while (paths[i])
+				free(paths[i++]);
+			free(paths);
+			return (path);
+		}
 		free(path);
 		i++;
 	}
@@ -62,15 +62,15 @@ void	error(void)
 void	execute(char *argv, char **envp)
 {
 	char	**cmd;
-	int 	i;
+	int		i;
 	char	*path;
-	
+
 	i = -1;
 	cmd = ft_split(argv, ' ');
 	if (!cmd || !cmd[0])
 		error();
 	path = find_path(cmd[0], envp);
-	if (!path)	
+	if (!path)
 	{
 		while (cmd[++i])
 			free(cmd[i]);
