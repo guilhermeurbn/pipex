@@ -21,10 +21,10 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-void    parent_process(char **argv, char **envp, int *fd);
-void    babe_pipe(char **argv, char **envp, int *fd);
-char    *find_path(char *cmd, char **envp);
-void    error(void);
-void    execute(char *argv, char **envp);
+void	parent_process(char **argv, char **envp, int *fd);
+void	babe_pipe(char **argv, char **envp, int *fd);
+char	*find_path(char *cmd, char **envp);
+void	error(void);
+void	execute(char *argv, char **envp);
 
 #endif
