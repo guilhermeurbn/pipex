@@ -6,19 +6,22 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:59:22 by guisanto          #+#    #+#             */
-/*   Updated: 2025/02/24 19:09:55 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/03/11 13:19:03 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char *find_path(char *cmd, char **envp)
+/* Function that will look for the path line inside the environment, will
+ split and test each command path and then return the right one. */
+char	*find_path(char *cmd, char **envp)
 {
-	char **paths;
-	char *path;
-	char *part_path;
-	int i = 0;
+	char	**paths;
+	char	*path;
+	int		i;
+	char	*part_path;
 
+	i = 0;
 	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
 		i++;
 	if (!envp[i])
@@ -31,56 +34,61 @@ char *find_path(char *cmd, char **envp)
 		path = ft_strjoin(part_path, cmd);
 		free(part_path);
 		if (access(path, F_OK) == 0)
-			return (path);
+			{
+				while (paths[i])
+					free(paths[i++]);
+				free(paths);
+				return (path);
+			}
 		free(path);
 		i++;
 	}
-	while (i-- > 0)
+	i = -1;
+	while (paths[++i])
 		free(paths[i]);
 	free(paths);
-	return (NULL);
+	return (0);
 }
 
-void error(void)
+/* A simple error displaying function. */
+void	error(void)
 {
 	perror("Error");
-	exit(EXIT_FAILURE);
+	exit(1);
 }
 
-void execute(char *argv, char **envp)
+/* Function that take the command and send it to find_path
+ before executing it. */
+void	execute(char *argv, char **envp)
 {
-	char **cmd = ft_split(argv, ' ');
-	char *path = find_path(cmd[0], envp);
-	int i = 0;
-
-	if (!path)
+	char	**cmd;
+	int 	i;
+	char	*path;
+	
+	i = -1;
+	cmd = ft_split(argv, ' ');
+	if (!cmd || !cmd[0])
+		error();
+	path = find_path(cmd[0], envp);
+	if (!path)	
 	{
-		while (cmd[i])
-			free(cmd[i++]);
+		while (cmd[++i])
+			free(cmd[i]);
 		free(cmd);
 		error();
 	}
 	if (execve(path, cmd, envp) == -1)
-		error();
-}
-
-int get_next_line(char **line)
-{
-	char *buffer;
-	char c;
-	int i = 0;
-	int r;
-
-	buffer = (char *)malloc(10000);
-	if (!buffer)
-		return (-1);
-	r = read(0, &c, 1);
-	while (r > 0 && c != '\n' && c != '\0')
 	{
-		buffer[i++] = c;
-		r = read(0, &c, 1);
+		free(path);
+		i = -1;
+		while (cmd[++i])
+			free(cmd[i]);
+		free(cmd);
+		error();
 	}
-	buffer[i] = '\0';
-	*line = buffer;
-	return (r);
+	free(path);
+	i = -1;
+	while (cmd[++i])
+		free(cmd[i]);
+	free(cmd);
 }
