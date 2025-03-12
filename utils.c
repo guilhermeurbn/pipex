@@ -6,7 +6,7 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:59:22 by guisanto          #+#    #+#             */
-/*   Updated: 2025/03/11 16:22:17 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/03/12 13:24:31 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,27 +27,21 @@ char	*find_path(char *cmd, char **envp)
 	if (!envp[i])
 		return (NULL);
 	paths = ft_split(envp[i] + 5, ':');
-	i = 0;
-	while (paths[i])
+	i = -1;
+	while (paths[++i])
 	{
 		part_path = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(part_path, cmd);
 		free(part_path);
 		if (access(path, F_OK) == 0)
-			{
-				while (paths[i])
-					free(paths[i++]);
-				free(paths);
-				return (path);
-			}
+		{
+			ft_free(paths);
+			return (path);
+		}
 		free(path);
-		i++;
 	}
-	i = -1;
-	while (paths[++i])
-		free(paths[i]);
-	free(paths);
-	return (0);
+	ft_free(paths);
+	return (NULL);
 }
 
 /* A simple error displaying function. */
@@ -62,33 +56,26 @@ void	error(void)
 void	execute(char *argv, char **envp)
 {
 	char	**cmd;
-	int 	i;
 	char	*path;
 	
-	i = -1;
 	cmd = ft_split(argv, ' ');
 	if (!cmd || !cmd[0])
+	{
+		ft_free(cmd);
 		error();
+	}
 	path = find_path(cmd[0], envp);
 	if (!path)	
 	{
-		while (cmd[++i])
-			free(cmd[i]);
-		free(cmd);
+		ft_free(cmd);
 		error();
 	}
 	if (execve(path, cmd, envp) == -1)
 	{
 		free(path);
-		i = -1;
-		while (cmd[++i])
-			free(cmd[i]);
-		free(cmd);
+		ft_free(cmd);
 		error();
 	}
 	free(path);
-	i = -1;
-	while (cmd[++i])
-		free(cmd[i]);
-	free(cmd);
+	ft_free(cmd);
 }

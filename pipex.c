@@ -6,7 +6,7 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:43:07 by guisanto          #+#    #+#             */
-/*   Updated: 2025/03/11 15:52:31 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/03/12 12:48:18 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	main(int argc, char **argv, char **envp)
 	pid = 0;
 	if (argc != 5)
 	{
-		return (ft_putstr_fd("Error:\n", 2), 1);
+		return (ft_putstr_fd("Error\n", 2), 1);
 	}
 	if (pipe(fd) == -1)
 	{
