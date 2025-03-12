@@ -6,7 +6,7 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:59:22 by guisanto          #+#    #+#             */
-/*   Updated: 2025/03/12 13:24:31 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/03/12 13:34:59 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ char	*find_path(char *cmd, char **envp)
 {
 	char	**paths;
 	char	*path;
-	int		i;
 	char	*part_path;
+	int		i;
 
 	i = 0;
 	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
@@ -34,10 +34,7 @@ char	*find_path(char *cmd, char **envp)
 		path = ft_strjoin(part_path, cmd);
 		free(part_path);
 		if (access(path, F_OK) == 0)
-		{
-			ft_free(paths);
-			return (path);
-		}
+			return (ft_free(paths), path);
 		free(path);
 	}
 	ft_free(paths);
@@ -57,7 +54,7 @@ void	execute(char *argv, char **envp)
 {
 	char	**cmd;
 	char	*path;
-	
+
 	cmd = ft_split(argv, ' ');
 	if (!cmd || !cmd[0])
 	{
@@ -65,7 +62,7 @@ void	execute(char *argv, char **envp)
 		error();
 	}
 	path = find_path(cmd[0], envp);
-	if (!path)	
+	if (!path)
 	{
 		ft_free(cmd);
 		error();

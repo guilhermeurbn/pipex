@@ -26,6 +26,6 @@ void	babe_pipe(char **argv, char **envp, int *fd);
 char	*find_path(char *cmd, char **envp);
 void	ft_error(void);
 void	execute(char *argv, char **envp);
-void    ft_free(char **str);
+void	ft_free(char **str);
 
 #endif
