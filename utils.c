@@ -6,14 +6,12 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:59:22 by guisanto          #+#    #+#             */
-/*   Updated: 2025/03/12 13:34:59 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/04/16 16:41:00 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-/* Function that will look for the path line inside the environment, will
- split and test each command path and then return the right one. */
 char	*find_path(char *cmd, char **envp)
 {
 	char	**paths;
@@ -27,6 +25,8 @@ char	*find_path(char *cmd, char **envp)
 	if (!envp[i])
 		return (NULL);
 	paths = ft_split(envp[i] + 5, ':');
+	if (!paths)
+		return (NULL);
 	i = -1;
 	while (paths[++i])
 	{
@@ -40,11 +40,28 @@ char	*find_path(char *cmd, char **envp)
 	ft_free(paths);
 	return (NULL);
 }
+void	print_error_and_exit(void)
+{
+	perror("Error\n");
+	exit(1);
+}
+
+void	validate_command(char **cmd)
+{
+	if (!cmd || !cmd[0])
+	{
+		ft_free(cmd);
+		print_error_and_exit();
+	}
+}
+
+/* Function that will look for the path line inside the environment, will
+ split and test each command path and then return the right one. */
 
 /* A simple error displaying function. */
 void	error(void)
 {
-	perror("Error");
+	perror("Error\n");
 	exit(1);
 }
 
@@ -56,22 +73,18 @@ void	execute(char *argv, char **envp)
 	char	*path;
 
 	cmd = ft_split(argv, ' ');
-	if (!cmd || !cmd[0])
-	{
-		ft_free(cmd);
-		error();
-	}
+	validate_command(cmd);
 	path = find_path(cmd[0], envp);
 	if (!path)
 	{
 		ft_free(cmd);
-		error();
+		print_error_and_exit();
 	}
 	if (execve(path, cmd, envp) == -1)
 	{
 		free(path);
 		ft_free(cmd);
-		error();
+		print_error_and_exit();
 	}
 	free(path);
 	ft_free(cmd);
