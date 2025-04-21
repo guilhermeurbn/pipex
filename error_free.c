@@ -6,16 +6,16 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:07:58 by guisanto          #+#    #+#             */
-/*   Updated: 2025/04/21 11:57:20 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:06:07 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 // apenas para erros e free
-void	ft_error(void)
+void	error(void)
 {
-	perror("Error");
+	perror("Error\n");
 	exit(1);
 }
 

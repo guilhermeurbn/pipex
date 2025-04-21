@@ -6,7 +6,7 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:59:22 by guisanto          #+#    #+#             */
-/*   Updated: 2025/04/21 11:59:32 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:05:54 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,6 @@ void	validate_command(char **cmd)
 		ft_free(cmd);
 		error();
 	}
-}
-
-/* Function that will look for the path line inside the environment, will
- split and test each command path and then return the right one. */
-
-/* A simple error displaying function. */
-void	error(void)
-{
-	perror("Error\n");
-	exit(1);
 }
 
 /* Function that take the command and send it to find_path
