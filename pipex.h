@@ -6,7 +6,7 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:34:37 by guisanto          #+#    #+#             */
-/*   Updated: 2025/03/12 13:08:46 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:01:20 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 void	parent_process(char **argv, char **envp, int *fd);
 void	babe_pipe(char **argv, char **envp, int *fd);
 char	*find_path(char *cmd, char **envp);
-void	ft_error(void);
+void	error(void);
 void	execute(char *argv, char **envp);
 void	ft_free(char **str);
 

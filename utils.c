@@ -6,7 +6,7 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:59:22 by guisanto          #+#    #+#             */
-/*   Updated: 2025/04/16 16:41:00 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/04/21 11:59:32 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,13 @@ char	*find_path(char *cmd, char **envp)
 	ft_free(paths);
 	return (NULL);
 }
-void	print_error_and_exit(void)
-{
-	perror("Error\n");
-	exit(1);
-}
 
 void	validate_command(char **cmd)
 {
 	if (!cmd || !cmd[0])
 	{
 		ft_free(cmd);
-		print_error_and_exit();
+		error();
 	}
 }
 
@@ -78,13 +73,13 @@ void	execute(char *argv, char **envp)
 	if (!path)
 	{
 		ft_free(cmd);
-		print_error_and_exit();
+		error();
 	}
 	if (execve(path, cmd, envp) == -1)
 	{
 		free(path);
 		ft_free(cmd);
-		print_error_and_exit();
+		error();
 	}
 	free(path);
 	ft_free(cmd);
