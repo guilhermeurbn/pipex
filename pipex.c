@@ -6,7 +6,7 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:43:07 by guisanto          #+#    #+#             */
-/*   Updated: 2025/09/17 15:20:09 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/09/17 15:31:16 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 //serve para quando eu quiser duplicar um file descriptor, mas quero garantir que se der erro o programa pare.
 static void safe_dup2(int oldfd, int newfd)
 {
-    if (dup2(oldfd, newfd) == -1)
+    if (dup2(oldfd, newfd) < 0)
     {
         perror("dup2 failed");
         exit(1);
