@@ -6,7 +6,7 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:59:22 by guisanto          #+#    #+#             */
-/*   Updated: 2025/04/21 12:05:54 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/09/17 14:49:24 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*find_path(char *cmd, char **envp)
 		part_path = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(part_path, cmd);
 		free(part_path);
-		if (access(path, F_OK) == 0)
+		if (access(path, X_OK) == 0)
 			return (ft_free(paths), path);
 		free(path);
 	}
@@ -45,13 +45,13 @@ void	validate_command(char **cmd)
 {
 	if (!cmd || !cmd[0])
 	{
+		if (cmd)
+			ft_free(cmd);
 		ft_free(cmd);
 		error();
 	}
 }
 
-/* Function that take the command and send it to find_path
- before executing it. */
 void	execute(char *argv, char **envp)
 {
 	char	**cmd;
@@ -65,12 +65,9 @@ void	execute(char *argv, char **envp)
 		ft_free(cmd);
 		error();
 	}
-	if (execve(path, cmd, envp) == -1)
-	{
-		free(path);
-		ft_free(cmd);
-		error();
-	}
+	execve(path, cmd, envp);
 	free(path);
 	ft_free(cmd);
+	error();
+
 }

@@ -6,13 +6,24 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:43:07 by guisanto          #+#    #+#             */
-/*   Updated: 2025/04/21 11:57:03 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/09/17 14:56:51 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "pipex.h"
 
-void	babe_pipe(char **argv, char **envp, int *fd)
+//serve para quando eu quiser duplicar um file descriptor, mas quero garantir que se der erro o programa pare.
+static void safe_dup2(int oldfd, int newfd)
+{
+    if (dup2(oldfd, newfd) == -1)
+    {
+        perror("dup2 failed");
+        exit(1);
+    }
+}
+
+void	child_process(char **argv, char **envp, int *fd)
 {
 	int	infile;
 
@@ -22,9 +33,10 @@ void	babe_pipe(char **argv, char **envp, int *fd)
 		perror("Error opening input file");
 		exit(1);
 	}
-	dup2(fd[1], STDOUT_FILENO);
-	dup2(infile, STDIN_FILENO);
 	close(fd[0]);
+	safe_dup2(fd[1], STDOUT_FILENO);
+	safe_dup2(infile, STDIN_FILENO);
+	close(infile);
 	close(fd[1]);
 	execute(argv[2], envp);
 }
@@ -39,10 +51,11 @@ void	parent_process(char **argv, char **envp, int *fd)
 		perror("Error opening output file");
 		exit(1);
 	}
-	dup2(fd[0], STDIN_FILENO);
-	dup2(outfile, STDOUT_FILENO);
-	close(fd[0]);
 	close(fd[1]);
+	safe_dup2(fd[0], STDIN_FILENO);
+	safe_dup2(outfile, STDOUT_FILENO);
+	close(outfile);
+	close(fd[0]);
 	execute(argv[3], envp);
 }
 
@@ -53,9 +66,7 @@ int	main(int argc, char **argv, char **envp)
 
 	pid = 0;
 	if (argc != 5)
-	{
-		return (ft_putstr_fd("Error\n", 2), 1);
-	}
+    	return (ft_putstr_fd("Usage: ./pipex infile cmd1 cmd2 outfile\n", 2), 1);
 	if (pipe(fd) == -1)
 	{
 		perror("Pipe creation failed");
@@ -68,8 +79,11 @@ int	main(int argc, char **argv, char **envp)
 		exit(1);
 	}
 	if (pid == 0)
-		babe_pipe(argv, envp, fd);
-	waitpid(pid, NULL, 0);
-	parent_process(argv, envp, fd);
+		child_process(argv, envp, fd);
+	else
+	{
+		parent_process(argv, envp, fd);
+		waitpid(pid, NULL, 0);
+	}
 	return (0);
 }

@@ -6,13 +6,12 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:07:58 by guisanto          #+#    #+#             */
-/*   Updated: 2025/04/21 12:06:07 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/09/17 14:37:46 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-// apenas para erros e free
 void	error(void)
 {
 	perror("Error\n");
