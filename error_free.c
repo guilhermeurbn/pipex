@@ -6,7 +6,7 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 16:07:58 by guisanto          #+#    #+#             */
-/*   Updated: 2025/09/17 14:37:46 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/09/17 20:18:29 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	error(void)
 {
-	perror("Error\n");
+	perror("Error");
 	exit(1);
 }
 

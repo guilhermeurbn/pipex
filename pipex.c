@@ -6,7 +6,7 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:43:07 by guisanto          #+#    #+#             */
-/*   Updated: 2025/09/17 15:52:38 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/09/19 13:25:28 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void safe_dup2(int oldfd, int newfd)
     }
 }
 
-void	child_process(char **argv, char **envp, int *fd)
+static void	child_process(char **argv, char **envp, int *fd)
 {
 	int	infile;
 
@@ -83,8 +83,8 @@ int	main(int argc, char **argv, char **envp)
 		child_process(argv, envp, fd);
 	else
 	{
-		parent_process(argv, envp, fd);
 		waitpid(pid, NULL, 0);
+		parent_process(argv, envp, fd);
 	}
 	return (0);
 }
