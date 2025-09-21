@@ -6,7 +6,7 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:59:22 by guisanto          #+#    #+#             */
-/*   Updated: 2025/09/19 13:38:32 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/09/19 14:33:11 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ char	*find_path(char *cmd, char **envp)
 	char	*part_path;
 	int		i;
 
-	// Se o comando já é um path absoluto ou relativo, testar diretamente
 	if (ft_strchr(cmd, '/') != NULL)
 	{
 		if (access(cmd, X_OK) == 0)
