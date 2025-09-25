@@ -6,34 +6,41 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:59:22 by guisanto          #+#    #+#             */
-/*   Updated: 2025/09/19 14:33:11 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:10:00 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*find_path(char *cmd, char **envp)
+char	*check_absolute_path(char *cmd)
 {
-	char	**paths;
-	char	*path;
-	char	*part_path;
-	int		i;
-
 	if (ft_strchr(cmd, '/') != NULL)
 	{
 		if (access(cmd, X_OK) == 0)
 			return (ft_strdup(cmd));
 		return (NULL);
 	}
-	// Procurar no PATH
+	return (NULL);
+}
+
+char	**get_path_dirs(char **envp)
+{
+	int	i;
+
 	i = 0;
 	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
 		i++;
 	if (!envp[i])
 		return (NULL);
-	paths = ft_split(envp[i] + 5, ':');
-	if (!paths)
-		return (NULL);
+	return (ft_split(envp[i] + 5, ':'));
+}
+
+char	*search_in_paths(char *cmd, char **paths)
+{
+	char	*part_path;
+	char	*path;
+	int		i;
+
 	i = -1;
 	while (paths[++i])
 	{
@@ -41,11 +48,26 @@ char	*find_path(char *cmd, char **envp)
 		path = ft_strjoin(part_path, cmd);
 		free(part_path);
 		if (access(path, X_OK) == 0)
-			return (ft_free(paths), path);
+			return (path);
 		free(path);
 	}
-	ft_free(paths);
 	return (NULL);
+}
+
+char	*find_path(char *cmd, char **envp)
+{
+	char	**paths;
+	char	*path;
+
+	path = check_absolute_path(cmd);
+	if (path)
+		return (path);
+	paths = get_path_dirs(envp);
+	if (!paths)
+		return (NULL);
+	path = search_in_paths(cmd, paths);
+	ft_free(paths);
+	return (path);
 }
 
 void	validate_command(char **cmd)
@@ -60,7 +82,7 @@ void	validate_command(char **cmd)
 char	**parse_command(char *argv)
 {
 	char	**cmd;
-	
+
 	cmd = ft_split(argv, ' ');
 	if (!cmd || !cmd[0])
 	{
@@ -69,6 +91,14 @@ char	**parse_command(char *argv)
 		return (NULL);
 	}
 	return (cmd);
+}
+
+void	execute_command(char **cmd, char *path, char **envp)
+{
+	execve(path, cmd, envp);
+	free(path);
+	ft_free(cmd);
+	error();
 }
 
 void	execute(char *argv, char **envp)
@@ -84,8 +114,5 @@ void	execute(char *argv, char **envp)
 		ft_free(cmd);
 		error();
 	}
-	execve(path, cmd, envp);
-	free(path);
-	ft_free(cmd);
-	error();
+	execute_command(cmd, path, envp);
 }

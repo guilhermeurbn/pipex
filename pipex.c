@@ -6,14 +6,13 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:43:07 by guisanto          #+#    #+#             */
-/*   Updated: 2025/09/19 13:54:33 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/09/25 14:57:37 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "pipex.h"
 
-//serve para quando eu quiser duplicar um file descriptor, mas quero garantir que se der erro o programa pare.
 static void safe_dup2(int oldfd, int newfd)
 {
     if (dup2(oldfd, newfd) < 0)
