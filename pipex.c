@@ -6,7 +6,7 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:43:07 by guisanto          #+#    #+#             */
-/*   Updated: 2025/09/25 14:57:37 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:22:15 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ void	parent_process(char **argv, char **envp, int *fd)
 	close(fd[0]);
 	execute(argv[3], envp);
 }
-/*valgrind --leak-check=yes --track-origins=yes
- --track-fds=yes --trace-children=yes*/
+
 int	main(int argc, char **argv, char **envp)
 {
 	int		fd[2];

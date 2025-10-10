@@ -6,7 +6,7 @@
 /*   By: guisanto <guisanto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:59:22 by guisanto          #+#    #+#             */
-/*   Updated: 2025/09/25 15:10:00 by guisanto         ###   ########.fr       */
+/*   Updated: 2025/10/10 16:21:50 by guisanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,10 @@ void	execute_command(char **cmd, char *path, char **envp)
 	free(path);
 	ft_free(cmd);
 	error();
-}
+}	
 
 void	execute(char *argv, char **envp)
-{
+{	
 	char	**cmd;
 	char	*path;
 
